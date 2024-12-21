@@ -13,6 +13,9 @@
 *
 ********************************************************************************************/
 
+#include <iostream>
+
+
 #include "raylib-cpp/include/raylib-cpp.hpp"
 
 #if defined(PLATFORM_WEB)
@@ -48,7 +51,7 @@ int main()
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    raylib::Window window(screenWidth, screenHeight, "DriftGame");
+    raylib::Window window(screenWidth, screenHeight, "DriftGame", FLAG_WINDOW_UNDECORATED | FLAG_VSYNC_HINT);
     raylib::Vector2 ballPosition{(float)screenWidth / 2, (float)screenHeight / 2};
 
 #if defined(PLATFORM_WEB)
@@ -56,6 +59,8 @@ int main()
 #else
     SetTargetFPS(60);   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
+
+    raylib::Text currentFps{"current fps"};
 
     // Main game loop
     while (!window.ShouldClose())    // Detect window close button or ESC key
@@ -69,13 +74,17 @@ int main()
         if(raylib::Keyboard::IsKeyDown(KEY_DOWN))
             ballPosition.y += 2.0f;
 
+        currentFps.text = std::to_string(GetFPS());
+
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(DARKGRAY);
 
         DrawText("Congrats! You created your first raylib-cpp window!", 160, 200, 20, RED);
 
         ballPosition.DrawCircle(50, raylib::Color::Red());
+
+        currentFps.Draw(10, 10);
 
         EndDrawing();
     }
