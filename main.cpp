@@ -52,7 +52,8 @@ int main()
     // Initialization
     //--------------------------------------------------------------------------------------
     raylib::Window window(screenWidth, screenHeight, "DriftGame", FLAG_WINDOW_UNDECORATED | FLAG_VSYNC_HINT);
-    raylib::Vector2 ballPosition{(float)screenWidth / 2, (float)screenHeight / 2};
+    raylib::Vector2 carPosition{(float)screenWidth / 2, (float)screenHeight / 2};
+    raylib::Texture2D carTex{"car_sprite.png"};
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -66,13 +67,13 @@ int main()
     while (!window.ShouldClose())    // Detect window close button or ESC key
     {
         if(raylib::Keyboard::IsKeyDown(KEY_RIGHT))
-            ballPosition.x += 2.0f;
+            carPosition.x += 2.0f;
         if(raylib::Keyboard::IsKeyDown(KEY_LEFT))
-            ballPosition.x -= 2.0f;
+            carPosition.x -= 2.0f;
         if(raylib::Keyboard::IsKeyDown(KEY_UP))
-            ballPosition.y -= 2.0f;
+            carPosition.y -= 2.0f;
         if(raylib::Keyboard::IsKeyDown(KEY_DOWN))
-            ballPosition.y += 2.0f;
+            carPosition.y += 2.0f;
 
         currentFps.text = std::to_string(GetFPS());
 
@@ -82,7 +83,8 @@ int main()
 
         DrawText("Congrats! You created your first raylib-cpp window!", 160, 200, 20, RED);
 
-        ballPosition.DrawCircle(50, raylib::Color::Red());
+        // carPosition.DrawCircle(50, raylib::Color::Red());
+        carTex.Draw(carPosition);
 
         currentFps.Draw(10, 10);
 
